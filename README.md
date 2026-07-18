@@ -1,0 +1,2 @@
+# SchoolGr
+A school ERP

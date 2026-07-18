@@ -1,0 +1,32 @@
+# Το αρχικό ιδιωτικό πακέτο εισαγωγής περιέχει πραγματικά δεδομένα.
+/schoolmedia-import/
+
+# Μυστικά και τοπικές ρυθμίσεις.
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Αντίγραφα βάσεων και πακέτα ανάπτυξης.
+*.sql
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+
+# Δυναμικά δεδομένα παραγωγής.
+/app/uploads/*
+!/app/uploads/.htaccess
+!/app/uploads/.gitkeep
+/app/backups/*
+!/app/backups/.htaccess
+!/app/backups/.gitkeep
+
+# Τοπικά και λειτουργικά αρχεία.
+*.log
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

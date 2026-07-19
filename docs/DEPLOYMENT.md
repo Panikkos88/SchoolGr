@@ -23,7 +23,29 @@
 - TCP 80: δημόσιο, μόνο για redirect και ACME challenge.
 - TCP 443: δημόσιο HTTPS.
 - TCP 22: περιορισμένο στη διαχειριστική δημόσια IP.
+- TCP 22 μέσω IAP: επιτρέπεται μόνο από το Google IAP εύρος
+  `35.235.240.0/20`.
 - Οι προεπιλεγμένοι παγκόσμιοι κανόνες SSH και RDP έχουν αφαιρεθεί.
+
+## Πρόσβαση συνεργατών
+
+Οι συνεργάτες παραγωγής χρησιμοποιούν Google Cloud IAP και OS Login. Το
+ελάχιστο σύνολο ρόλων είναι:
+
+- `roles/viewer`
+- `roles/compute.osAdminLogin`
+- `roles/iap.tunnelResourceAccessor`
+
+Η σύνδεση πραγματοποιείται χωρίς άνοιγμα του SSH στη δημόσια IP του συνεργάτη:
+
+```bash
+gcloud compute ssh schoolmedia-web \
+  --project=school-gr-502820 \
+  --zone=europe-central2-a \
+  --tunnel-through-iap
+```
+
+Η πρόσβαση στο GitHub διαχειρίζεται ανεξάρτητα από το Google Cloud IAM.
 
 ## SSL
 

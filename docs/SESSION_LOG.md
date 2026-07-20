@@ -81,3 +81,30 @@
 - Επιβεβαιώθηκαν και οι τρεις IAM bindings.
 - Επιβεβαιώθηκε ο ενεργός κανόνας firewall TCP 22 με target
   `schoolmedia-web`.
+
+## 2026-07-20 — Docker localhost περιβάλλον
+
+### Εργασίες
+
+- Προστέθηκε Docker Compose περιβάλλον με PHP 8.3, Apache και MariaDB 10.11.
+- Προστέθηκε schema 47 πινάκων χωρίς production εγγραφές ή AUTO_INCREMENT
+  μετρητές παραγωγής.
+- Προστέθηκε development seed που δημιουργεί τοπικό admin από μη
+  καταχωρισμένες μεταβλητές `.env`.
+- Προστέθηκε license bypass που ενεργοποιείται μόνο σε ρητό development mode.
+- Περιορίστηκε το localhost web port στο `127.0.0.1`.
+- Προστέθηκαν `.dockerignore`, `.env.example` και ελληνικές οδηγίες χρήσης με
+  Codex.
+
+### Έλεγχοι
+
+- Επιβεβαιώθηκε ότι το schema περιέχει μόνο DDL και κανένα `INSERT`.
+- Επιβεβαιώθηκε ότι δεν υπάρχουν production emails, definers ή database
+  identifiers στο schema.
+- Εισήχθη προσωρινά το schema σε απομονωμένη βάση και δημιουργήθηκαν επιτυχώς
+  47 πίνακες και ένας development admin.
+- Εκτελέστηκαν στατικοί έλεγχοι Docker Compose, PHP και Git.
+
+### Εκκρεμότητες
+
+- Πλήρης runtime δοκιμή σε υπολογιστή με εγκατεστημένο Docker Desktop.

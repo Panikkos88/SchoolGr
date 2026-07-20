@@ -107,3 +107,9 @@ curl -I https://schoolmedia.34-116-171-152.sslip.io/login.php
 
 Τα scripts δεν περιέχουν παραγωγικούς κωδικούς. Το `setup-server.sh` απαιτεί
 τη μεταβλητή `DB_PASSWORD` κατά την εκτέλεση.
+
+## Διαχωρισμός localhost και παραγωγής
+
+Το `compose.yaml` χρησιμοποιείται αποκλειστικά για localhost ανάπτυξη. Δεν
+αποτελεί production deployment και δεν συνδέεται με τη βάση ή τα uploads του
+Google Cloud VM. Οι οδηγίες βρίσκονται στο `docs/LOCAL_DEVELOPMENT.md`.

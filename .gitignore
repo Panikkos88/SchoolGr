@@ -4,6 +4,7 @@
 # Μυστικά και τοπικές ρυθμίσεις.
 .env
 .env.*
+!.env.example
 *.pem
 *.key
 *.p12
@@ -15,6 +16,9 @@
 *.tar
 *.tar.gz
 *.tgz
+
+# Το schema ανάπτυξης δεν περιέχει δεδομένα και επιτρέπεται ρητά.
+!/docker/init/01-schema.sql
 
 # Δυναμικά δεδομένα παραγωγής.
 /app/uploads/*
@@ -30,3 +34,4 @@
 Thumbs.db
 .idea/
 .vscode/
+.docker-data/

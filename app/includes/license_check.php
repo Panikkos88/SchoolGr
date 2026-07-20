@@ -1,5 +1,12 @@
 <?php
 
+if (
+    getenv('SCHOOLMEDIA_ENV') === 'development'
+    && getenv('SCHOOLMEDIA_BYPASS_LICENSE') === '1'
+) {
+    return;
+}
+
 require_once __DIR__.'/../config/database.php';
 
 $stmt = $pdo->query("

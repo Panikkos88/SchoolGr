@@ -1,0 +1,64 @@
+name: schoolgr
+
+services:
+  db:
+    image: mariadb:10.11
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: schoolgr
+      MARIADB_USER: schoolgr
+      MARIADB_PASSWORD: ${SCHOOLGR_DB_PASSWORD:?Ορίστε SCHOOLGR_DB_PASSWORD στο .env}
+      MARIADB_ROOT_PASSWORD: ${SCHOOLGR_DB_ROOT_PASSWORD:?Ορίστε SCHOOLGR_DB_ROOT_PASSWORD στο .env}
+    volumes:
+      - schoolgr_db:/var/lib/mysql
+      - ./docker/init/01-schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  init:
+    build:
+      context: .
+    restart: "no"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SCHOOLMEDIA_DB_HOST: db
+      SCHOOLMEDIA_DB_NAME: schoolgr
+      SCHOOLMEDIA_DB_USER: schoolgr
+      SCHOOLMEDIA_DB_PASSWORD: ${SCHOOLGR_DB_PASSWORD:?Ορίστε SCHOOLGR_DB_PASSWORD στο .env}
+      SCHOOLGR_DEV_ADMIN_EMAIL: ${SCHOOLGR_DEV_ADMIN_EMAIL:-admin@schoolgr.local}
+      SCHOOLGR_DEV_ADMIN_PASSWORD: ${SCHOOLGR_DEV_ADMIN_PASSWORD:?Ορίστε SCHOOLGR_DEV_ADMIN_PASSWORD στο .env}
+    volumes:
+      - ./docker/dev-seed.php:/opt/schoolgr/dev-seed.php:ro
+    entrypoint: ["php", "/opt/schoolgr/dev-seed.php"]
+
+  web:
+    build:
+      context: .
+    restart: unless-stopped
+    depends_on:
+      init:
+        condition: service_completed_successfully
+    environment:
+      SCHOOLMEDIA_ENV: development
+      SCHOOLMEDIA_BYPASS_LICENSE: "1"
+      SCHOOLMEDIA_DB_HOST: db
+      SCHOOLMEDIA_DB_NAME: schoolgr
+      SCHOOLMEDIA_DB_USER: schoolgr
+      SCHOOLMEDIA_DB_PASSWORD: ${SCHOOLGR_DB_PASSWORD:?Ορίστε SCHOOLGR_DB_PASSWORD στο .env}
+    ports:
+      - "127.0.0.1:${SCHOOLGR_PORT:-8080}:80"
+    volumes:
+      - ./app:/var/www/html
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://localhost/login.php"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  schoolgr_db:

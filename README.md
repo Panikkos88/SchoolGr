@@ -24,7 +24,9 @@ Let's Encrypt ανανεώνεται αυτόματα μέσω Certbot.
 
 - `app/`: πηγαίος κώδικας της εφαρμογής.
 - `deployment/`: επαναλήψιμα scripts εγκατάστασης, SSL και ελέγχων.
+- `docker/`: ασφαλές localhost περιβάλλον χωρίς παραγωγικά δεδομένα.
 - `docs/DEPLOYMENT.md`: αναλυτικές οδηγίες λειτουργίας και ανάπτυξης.
+- `docs/LOCAL_DEVELOPMENT.md`: οδηγίες ανάπτυξης με Docker και Codex.
 - `docs/SESSION_LOG.md`: ιστορικό σημαντικών εργασιών ανά συνεδρία.
 - `AGENTS.md`: κανόνες για τις επόμενες συνεδρίες Codex.
 
@@ -57,3 +59,14 @@ find app -name '*.php' -exec php -l {} \;
 
 Οι οδηγίες παραγωγικής εγκατάστασης βρίσκονται στο
 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+
+Για localhost ανάπτυξη:
+
+```powershell
+Copy-Item .env.example .env
+docker compose up --build
+```
+
+Πριν από την πρώτη εκκίνηση πρέπει να αντικατασταθούν όλες οι τιμές
+`change-me` στο τοπικό `.env`. Αναλυτικές οδηγίες υπάρχουν στο
+[docs/LOCAL_DEVELOPMENT.md](docs/LOCAL_DEVELOPMENT.md).
